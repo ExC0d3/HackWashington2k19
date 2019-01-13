@@ -1,9 +1,19 @@
-var currentLat = 47.6204914;
-var currentLon = -122.3492315;
+// Space Needle
+// var currentLat = 47.6204914;
+// var currentLon = -122.3492315;
+
+// Science Center
+var currentLat = 47.6193101;
+var currentLon = -122.35234359999998;
+
+// Half way to Space Needle
+var lat1 = 47.6199454;
+var lon1 = -122.3517859;
+
 var map;
 var hereMarker;
 var service;
-var infowindow;
+var directionsDisplay;
 var markers = [];
 
 function wikiSummaryApi(text) {
@@ -17,34 +27,48 @@ function here() {
   return new google.maps.LatLng(currentLat, currentLon);
 }
 
-var watchID = navigator.geolocation.watchPosition(function (position) {
-  console.log('current postion updated...', position.coords);
-  currentLat = position.coords.latitude
-  currentLon = position.coords.longitude;
-  if (!map) {
-    initMap(currentLat, currentLon);
-  }
+// Get directions for space needle.
+setTimeout(() => {
+  requestDirection('Space Needle');
   getSurroundingLocations();
-});
+}, 1000);
+
+// Walk halfway.
+setTimeout(() => {
+  currentLat = lat1;
+  currentLon = lon1;
+  drawHere();
+  getSurroundingLocations();
+}, 5000);
+
+// var watchID = navigator.geolocation.watchPosition(function (position) {
+//   console.log('current postion updated...', position.coords);
+//   currentLat = position.coords.latitude
+//   currentLon = position.coords.longitude;
+//   if (!map) {
+//     initMap();
+//   }
+//   getSurroundingLocations();
+//   requestDirection('Space Needle');
+// });
 
 function getSurroundingLocations() {
+  deleteMarkers();
+
   var request = {
     location: here(),
-    radius: '50',
-    // type: ['restaurant'],
-    // rankBy: google.maps.places.RankBy.DISTANCE
+    // radius: '250',
+    type: ['points_of_interest'],
+    rankBy: google.maps.places.RankBy.DISTANCE
   };
 
   console.log('searching...')
   service = new google.maps.places.PlacesService(map);
   service.nearbySearch(request, function (results, status) {
-    console.log(status);
+    console.log('nearbySearch:', results, status);
     if (status == google.maps.places.PlacesServiceStatus.OK) {
-      console.log('nearby..')
-      // createMarkers(results);
       for (var i = 0; i < Math.min(10, results.length); i++) {
         var place = results[i];
-        console.log(place);
         createMarker(results[i]);
       }
     }
@@ -52,6 +76,7 @@ function getSurroundingLocations() {
 };
 
 function requestDirection(query) {
+  deleteMarkers();
   // Places API
   // var request = {
   //   query: query,
@@ -62,8 +87,6 @@ function requestDirection(query) {
 
   // Directions API
   var directionsService = new google.maps.DirectionsService();
-  var directionsDisplay = new google.maps.DirectionsRenderer();
-  directionsDisplay.setMap(map);
   directionsDisplay.setPanel(document.getElementById('directionsPanel'));
   var request = {
     origin: here(),
@@ -71,6 +94,7 @@ function requestDirection(query) {
     travelMode: 'WALKING'
   };
   directionsService.route(request, function(response, status) {
+    console.log('route', response);
     if (status == 'OK') {
       directionsDisplay.setDirections(response);
     }
@@ -78,12 +102,19 @@ function requestDirection(query) {
 }
 
 function drawHere() {
-  var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-  hereMarker = new google.maps.Marker({
-    position: here(),
-    map: map,
-    icon: image
-  });
+  if (!hereMarker) {
+    var image = {
+      url: 'http://maps.google.com/mapfiles/kml/shapes/man.png',
+      scaledSize: new google.maps.Size(25, 25), // scaled size
+    };
+    hereMarker = new google.maps.Marker({
+      position: here(),
+      map: map,
+      icon: image,
+      zIndex: 10
+    });
+  }
+  hereMarker.setPosition(here());
 }
 
 function initMap() {
@@ -92,7 +123,10 @@ function initMap() {
     zoom: 15
   });
 
-  requestDirection('Pike Place');
+  directionsDisplay = new google.maps.DirectionsRenderer();
+  directionsDisplay.setMap(map);
+
+  drawHere();
 }
 
 function callback(results, status) {
@@ -101,8 +135,18 @@ function callback(results, status) {
   }
 }
 
+
+function createMarkers(places) {
+  // var bounds = new google.maps.LatLngBounds();
+  for (var i = 0, place; place = places[i]; i++) {
+    createMarker(place);
+    // bounds.extend(place.geometry.location);
+  }
+  // map.fitBounds(bounds);
+}
+
+// Adds a marker to the map and push to the array.
 function createMarker(place) {
-  console.log(place)
   var image = {
     url: place.icon,
     size: new google.maps.Size(71, 71),
@@ -120,13 +164,26 @@ function createMarker(place) {
   });
   markers.push(marker);
 }
-function createMarkers(places) {
-  var bounds = new google.maps.LatLngBounds();
-  var placesList = document.getElementById('places');
 
-  for (var i = 0, place; place = places[i]; i++) {
-    createMarker(place);
-    // bounds.extend(place.geometry.location);
+// Sets the map on all markers in the array.
+function setMapOnAll(map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
   }
-  // map.fitBounds(bounds);
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+  setMapOnAll(null);
+}
+
+// Shows any markers currently in the array.
+function showMarkers() {
+  setMapOnAll(map);
+}
+
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers() {
+  clearMarkers();
+  markers = [];
 }
