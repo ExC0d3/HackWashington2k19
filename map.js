@@ -19,8 +19,9 @@ var markers = [];
 
 var place;
 
-const nearbySpeech1 = 'you are near the Laser Dome at the Pacific Science Center, Pacific Science Center’s Laser Dome has a packed catalog of shows that feature stunning laser imagery and powerful sound.';
-const passed1 = 'you just passed PACCAR IMAX Theater, a movie theater chain known for presenting 3D films on a giant screen, including blockbusters..';
+const nearbySearch1 = 'you are near PACCAR IMAX Theater, it is a two floor theater with big grey arched pillars and railings of the same shape on the outside.'
+const passed1 = 'you are near the Laser Dome at the Pacific Science Center, Pacific Science Center’s Laser Dome has a packed catalog of shows that feature stunning laser imagery and powerful sound.';
+// const passed1 = 'you are near PACCAR IMAX Theater, it is a two floor theater with big grey arched pillars and railings of the same shape on the outside.';
 
 function wikiSummaryApi(text) {
   fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + text)
