@@ -1,0 +1,27 @@
+#map {
+    height: 700px;  /* The height is 600 pixels */
+    width: 95%;  /* The width is the width of the web page */
+    margin: auto;
+    border: white;
+    margin-top: 8px;
+}
+
+.box {
+    background-image: linear-gradient(#3C5ED7, #2FB2BA);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    /* Preserve aspet ratio */
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.destination-name {
+    position: absolute;
+    margin: auto;
+}
