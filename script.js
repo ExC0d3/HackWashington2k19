@@ -1,3 +1,4 @@
+console.log('loading script.js')
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
 var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
@@ -46,7 +47,7 @@ recognition.onresult = function(event) {
 
   // diagnostic.textContent = 'Result received: ' + color + '.';
   console.log(color);
-  if(color==='camera'){
+  if(color.trim()==='camera'){
     window.location.href='/camera';
     recognition.start();
   }
@@ -54,9 +55,13 @@ recognition.onresult = function(event) {
     console.log('Clicking');
     screenshot();
   }
-  
+  if(color.includes('navigate to')) {
+    var place = color.replace('navigate to', '');
+    console.log('navigating to', color.replace('navigate to', ''));
+    window.location.href='/map?place='+place
+  }
+
   console.log('Confidence: ' + event.results[0][0].confidence);
-  
 }
 
 recognition.onspeechend = function() {
@@ -64,9 +69,9 @@ recognition.onspeechend = function() {
 }
 
 recognition.onnomatch = function(event) {
-  diagnostic.textContent = "I didn't recognise that color.";
+  // diagnostic.textContent = "I didn't recognise that color.";
 }
 
 recognition.onerror = function(event) {
-  diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
+  // diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
 }
