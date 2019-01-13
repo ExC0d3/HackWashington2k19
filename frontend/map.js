@@ -1,7 +1,7 @@
 
 // Science Center
 var currentLat = 47.6193101;
-var currentLon = -122.35234359999998;
+var currentLon = -122.3534435;
 
 // Half way to Space Needle
 var lat1 = 47.6199454;
@@ -19,8 +19,8 @@ var markers = [];
 
 var place;
 
-const nearbySearch1 = 'you are near PACCAR IMAX Theater, it is a two floor theater with big grey arched pillars and railings of the same shape on the outside.'
-const passed1 = 'you are near the Laser Dome at the Pacific Science Center, Pacific Science Center’s Laser Dome has a packed catalog of shows that feature stunning laser imagery and powerful sound.';
+const passed1 = 'you passed the PACCAR IMAX Theater, it is a two floor theater with big grey arched pillars and railings of the same shape on the outside.'
+// const passed1 = 'you are near the Laser Dome at the Pacific Science Center, Pacific Science Center’s Laser Dome has a packed catalog of shows that feature stunning laser imagery and powerful sound.';
 // const passed1 = 'you are near PACCAR IMAX Theater, it is a two floor theater with big grey arched pillars and railings of the same shape on the outside.';
 
 function wikiSummaryApi(text) {
@@ -41,17 +41,21 @@ function saySpeech(speech) {
 // Get directions.
 setTimeout(() => {
   place = decodeURI(window.location.search.split('=', 2)[1]).trim();
-  speak('navigating to ' + place);
-  console.log('navigating to ', place)
+  var log = `navigating to ${place}`
+  speak(log);
+  console.log(log);
+  var log = `walk straight for 256 feet, then turn right.`
+  speak(log);
+  console.log(log);
   if (place.includes('Space Needle')) {
-    getSurroundingLocations(saySpeech(nearbySpeech1));
+    // getSurroundingLocations(saySpeech(nearbySpeech1));
     // Walk halfway.
     setTimeout(() => {
       currentLat = lat1;
       currentLon = lon1;
       drawHere();
       getSurroundingLocations(saySpeech(passed1));
-    }, 14000);
+    }, 8000);
 
     // Walk all the way.
     setTimeout(() => {
@@ -60,7 +64,7 @@ setTimeout(() => {
       drawHere();
       deleteMarkers();
       saySpeech(`you arrived at ${place}.`)();
-    }, 23000);
+    }, 18000);
   } else {
     getSurroundingLocations(() => {});
   }
