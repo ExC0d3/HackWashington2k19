@@ -1,33 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
     <title>Miru</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+      /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+      .row.content {
+        height: 550px;
+      }
 
+      /* Set gray background color and 100% height */
 
-
-    <link rel="stylesheet" href="css/style.css">
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-
+      /* On small screens, set height to 'auto' for the grid */
+      @media screen and (max-width: 767px) {
+        .row.content {
+          height: auto;
+        }
+      }
+    </style>
   </head>
   <body>
-    <head>
-      <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400" rel="stylesheet">
-    </head>
-    <body>
-      <div class="clearfix">
-        <div class="box">
-          <div class="login-page">
-            <img src="miru-logo.png" style="max-width: 70%">
-            <p class="spacing">see the world</p>
+    <div class="container-fluid">
+      <div class="row content">
+        <br />
+        <div class="col-sm-12">
+          <div class="well">
+            <div class="box">
+              <div class="login-page">
+                <img
+                  src="miru-logo.png"
+                  style="max-width: 40%; padding-bottom: 40px;"
+                />
+                <p class="spacing">see the world</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </body>
-
-
+    </div>
+    <script src="script.js"></script>
+    <script src="speech.js"></script>
+    <script>
+        $(document).ready(function(e){
+          $('body').click(function(e){
+            speak('Welcome to Miru');
+            window.location.href='/splash.html'
+          })
+        })
+    </script>
   </body>
 </html>
