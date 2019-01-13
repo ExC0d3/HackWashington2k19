@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Miru</title>
+    <link rel="icon" href="miru-logo.png" type="image/x-icon"/>
 
     <link rel="stylesheet" href="css/style.css" />
     <script
@@ -43,7 +44,7 @@
     <script src="screenshot.js"></script>
     <script src="speech.js"></script>
       <script>
-        $(document).ready(function(){      
+        $(document).ready(function(){
         const hdConstraints = {
         video: {width: {min: 1280}, height: {min: 720}}
         };
@@ -51,10 +52,10 @@
         navigator.mediaDevices.getUserMedia(hdConstraints).
         then((stream) => {
           video.srcObject = stream;
-            
-            
-  
-  
+
+
+
+
           // doAll();
         });
         })

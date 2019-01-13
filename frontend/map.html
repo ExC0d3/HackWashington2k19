@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>App</title>
-    <link rel="stylesheet" href="http://localhost:5000/maps/main.css">
+    <title>Miru</title>
+    <link
+        href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/map.css">
     <!-- AIzaSyAw6rbRgBXAod84DF7-5BrX_CI9DZ4aOHw -->
 </head>
 <body>
     <div class="box">
         <div id="map"></div>
-        <p class="destination-name">Pike Place Market</p>
-        <div class="destination-name">Pike Place Market</div>
-        <script src="./main.js"></script>
+        <p id="destination-name">Navigating To...</p>
+        <script src="script.js"></script>
+        <script src="speech.js"></script>
+        <script src="map.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw6rbRgBXAod84DF7-5BrX_CI9DZ4aOHw&libraries=places&callback=initMap"></script>
     </div>
 </body>

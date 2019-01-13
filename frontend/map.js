@@ -1,6 +1,3 @@
-// Space Needle
-// var currentLat = 47.6204914;
-// var currentLon = -122.3492315;
 
 // Science Center
 var currentLat = 47.6193101;
@@ -10,11 +7,20 @@ var currentLon = -122.35234359999998;
 var lat1 = 47.6199454;
 var lon1 = -122.3517859;
 
+// Got to Space Needle
+var lat2 = 47.6203000;
+var lon2 = -122.3492315;
+
 var map;
 var hereMarker;
 var service;
 var directionsDisplay;
 var markers = [];
+
+var place;
+
+const nearbySpeech1 = 'you are near the Laser Dome at the Pacific Science Center, Pacific Science Center’s Laser Dome has a packed catalog of shows that feature stunning laser imagery and powerful sound.';
+const passed1 = 'you just passed PACCAR IMAX Theater, a movie theater chain known for presenting 3D films on a giant screen, including blockbusters..';
 
 function wikiSummaryApi(text) {
   fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + text)
@@ -27,19 +33,39 @@ function here() {
   return new google.maps.LatLng(currentLat, currentLon);
 }
 
-// Get directions for space needle.
+function saySpeech(speech) {
+  console.log('speak:', speech)
+  return () => speak(speech);
+}
+// Get directions.
 setTimeout(() => {
-  requestDirection('Space Needle');
-  getSurroundingLocations();
-}, 1000);
+  place = decodeURI(window.location.search.split('=', 2)[1]).trim();
+  speak('navigating to ' + place);
+  console.log('navigating to ', place)
+  if (place.includes('Space Needle')) {
+    getSurroundingLocations(() => {});
+  // Walk halfway.
+  setTimeout(() => {
+    currentLat = lat1;
+    currentLon = lon1;
+    drawHere();
+    getSurroundingLocations(saySpeech(passed1));
+  }, 14000);
 
-// Walk halfway.
-setTimeout(() => {
-  currentLat = lat1;
-  currentLon = lon1;
-  drawHere();
-  getSurroundingLocations();
-}, 5000);
+  // Walk all the way.
+  setTimeout(() => {
+    currentLat = lat2;
+    currentLon = lon2;
+    drawHere();
+    deleteMarkers();
+    saySpeech(`you arrived at ${place}.`)();
+  }, 23000);
+  } else {
+    getSurroundingLocations(saySpeech(nearbySpeech1));
+  }
+  // requestDirection('Space Needle');
+  requestDirection(place);
+}, 1000);
 
 // var watchID = navigator.geolocation.watchPosition(function (position) {
 //   console.log('current postion updated...', position.coords);
@@ -52,7 +78,7 @@ setTimeout(() => {
 //   requestDirection('Space Needle');
 // });
 
-function getSurroundingLocations() {
+function getSurroundingLocations(callback) {
   deleteMarkers();
 
   var request = {
@@ -72,10 +98,12 @@ function getSurroundingLocations() {
         createMarker(results[i]);
       }
     }
+    callback();
   });
 };
 
 function requestDirection(query) {
+  document.getElementById('destination-name').innerText = query
   deleteMarkers();
   // Places API
   // var request = {
@@ -84,10 +112,8 @@ function requestDirection(query) {
   // };
   // service = new google.maps.places.PlacesService(map);
   // service.findPlaceFromQuery(request, callback);
-
   // Directions API
   var directionsService = new google.maps.DirectionsService();
-  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
   var request = {
     origin: here(),
     destination: query,
@@ -120,7 +146,9 @@ function drawHere() {
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: here(),
-    zoom: 15
+    zoom: 15,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    disableDefaultUI: true,
   });
 
   directionsDisplay = new google.maps.DirectionsRenderer();
