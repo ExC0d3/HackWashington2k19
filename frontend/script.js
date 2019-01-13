@@ -80,5 +80,5 @@ recognition.onnomatch = function(event) {
 
 recognition.onerror = function(event) {
   // diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
-  console.log('Error: ', error);
+  console.log('Error: ', event);
 }

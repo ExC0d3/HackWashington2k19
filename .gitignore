@@ -7,3 +7,5 @@ backend/views
 codepen*
 
 web-speech-api
+
+.DS_Store
