@@ -44,10 +44,10 @@ setTimeout(() => {
   var log = `navigating to ${place}`
   speak(log);
   console.log(log);
-  var log = `walk straight for 256 feet, then turn right.`
-  speak(log);
-  console.log(log);
   if (place.includes('Space Needle')) {
+    var log = `walk straight for 256 feet, then turn right.`
+    speak(log);
+    console.log(log);
     // getSurroundingLocations(saySpeech(nearbySpeech1));
     // Walk halfway.
     setTimeout(() => {
