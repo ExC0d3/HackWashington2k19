@@ -37,7 +37,7 @@
 						}, 1000)
 						setTimeout(() => {
 							speak('Annie says: beautiful picture!')
-						}, 7000)
+						}, 10000)
 	        })
 	        .catch((err) => {
 	          console.log(err);
