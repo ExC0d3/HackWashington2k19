@@ -43,25 +43,25 @@ setTimeout(() => {
   speak('navigating to ' + place);
   console.log('navigating to ', place)
   if (place.includes('Space Needle')) {
-    getSurroundingLocations(() => {});
-  // Walk halfway.
-  setTimeout(() => {
-    currentLat = lat1;
-    currentLon = lon1;
-    drawHere();
-    getSurroundingLocations(saySpeech(passed1));
-  }, 14000);
-
-  // Walk all the way.
-  setTimeout(() => {
-    currentLat = lat2;
-    currentLon = lon2;
-    drawHere();
-    deleteMarkers();
-    saySpeech(`you arrived at ${place}.`)();
-  }, 23000);
-  } else {
     getSurroundingLocations(saySpeech(nearbySpeech1));
+    // Walk halfway.
+    setTimeout(() => {
+      currentLat = lat1;
+      currentLon = lon1;
+      drawHere();
+      getSurroundingLocations(saySpeech(passed1));
+    }, 14000);
+
+    // Walk all the way.
+    setTimeout(() => {
+      currentLat = lat2;
+      currentLon = lon2;
+      drawHere();
+      deleteMarkers();
+      saySpeech(`you arrived at ${place}.`)();
+    }, 23000);
+  } else {
+    getSurroundingLocations(() => {});
   }
   // requestDirection('Space Needle');
   requestDirection(place);
