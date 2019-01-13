@@ -57,8 +57,13 @@ recognition.onresult = function(event) {
   }
   if(color.includes('navigate to')) {
     var place = color.replace('navigate to', '');
-    console.log('navigating to', color.replace('navigate to', ''));
-    window.location.href='/map?place='+place
+    // Check if the place is garbage, skip it if so.
+    if (place.split(' ').length < 5) {
+      console.log('navigating to', color.replace('navigate to', ''));
+      window.location.href='/map?place='+place
+    } else {
+      console.warn('voice captured navigating to long place name... skipping');
+    }
   }
 
   console.log('Confidence: ' + event.results[0][0].confidence);
