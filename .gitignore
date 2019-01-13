@@ -3,3 +3,7 @@ node_modules
 backend/public
 
 backend/views
+
+codepen*
+
+web-speech-api
