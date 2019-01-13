@@ -1,4 +1,3 @@
-console.log('loading script.js')
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
 var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
@@ -66,12 +65,15 @@ recognition.onresult = function(event) {
 
 recognition.onspeechend = function() {
   recognition.stop();
+  recognition.start();
 }
 
 recognition.onnomatch = function(event) {
   // diagnostic.textContent = "I didn't recognise that color.";
+  console.log('No Match: ', event);
 }
 
 recognition.onerror = function(event) {
   // diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
+  console.log('Error: ', error);
 }
