@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
+import CircleButton from './CircleButton';
+
+import './Camera.css';
 
 class Camera extends Component{
+  state = {
+    description: '',
+    imgsrc: 'https://static.wixstatic.com/media/b77fe464cfc445da9003a5383a3e1acf.jpg'
+  }
+
   takePhoto = () => {
     navigator.mediaDevices.getUserMedia({video: true})
       .then(mediaStream => {
@@ -16,15 +24,27 @@ class Camera extends Component{
 
   handleImageBlob = blob => {
     console.log(blob);
-    const img = document.getElementById('photo');
-    img.src = URL.createObjectURL(blob);
+    this.setState({
+      imgsrc: URL.createObjectURL(blob),
+      description: "you are beaautiful."
+    });
+    this.sayText("you are beautiful.");
+  }
+
+  sayText = text => {
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance(text));
   }
 
   render() {
-    return <div>
-      <button onClick={this.takePhoto}>Take Photo</button>
-      <img id="photo" alt="Captured"></img>
-    </div>
+    return (
+      <div>
+        <img src={this.state.imgsrc} alt="Captured" width="100%"></img>
+        <div className="description-container">
+          <p className="description">{this.state.description}</p>
+        </div>
+        <CircleButton onClick={this.takePhoto}></CircleButton>
+      </div>
+    );
   }
 }
 
