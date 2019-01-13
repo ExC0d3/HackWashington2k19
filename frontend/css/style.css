@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+
+.box {
+  background-image: linear-gradient(#3C5ED7, #2FB2BA);
+  float: left;
+  padding: 50px;
+  height: 600px;
+  width: 300px;
+  margin: 10px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+p, h2 {
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.login-page {
+  text-align: center;
+  padding: 100px 0;
+}
+
+.spacing {
+  padding-bottom: 50px;
+}
+
