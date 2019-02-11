@@ -28,7 +28,7 @@
       <script>
         $(document).ready(function(){
         const hdConstraints = {
-        video: {width: {min: 1280}, height: {min: 720}}
+        video: {width: {min: 375}, height: {max: 812}}
         };
         const video = document.querySelector('video');
         navigator.mediaDevices.getUserMedia(hdConstraints).
